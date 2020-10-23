@@ -11,7 +11,7 @@ jobs:
       - name: Generate new file
         run: |
           cd r
-          filename=$(echo -n "${{ github.event.issue.number }}" | md5sum | awk '{print $1}).html'
+          filename=$(echo -n "${{ github.event.issue.number }}" | md5sum | awk '{print $1}').html
           echo '${{ github.event.issue.body }}' > body.temp
           title=$(sed '1q;d' body.temp)
           description=$(sed '2q;d' body.temp)
