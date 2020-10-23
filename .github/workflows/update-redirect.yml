@@ -9,10 +9,12 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Generate new file
+        id: generate_file
         run: |
           cd r
           filename=$(echo -n "${{ github.event.issue.number }}" | md5sum | awk '{print $1}').html
           echo "filename=$filename">> $GITHUB_ENV
+          echo ::set-output name=filename::$filename
           echo '${{ github.event.issue.body }}' > body.temp
           title=$(sed '1q;d' body.temp)
           description=$(sed '2q;d' body.temp)
@@ -42,5 +44,5 @@ jobs:
         with:
           issue-number: ${{ github.event.issue.number }}
           body: |
-            [https://anderick.github.io/issue-redir/r/${INPUT_filename}](https://anderick.github.io/issue-redir/r/${filename})
-          reactions: '+1'
+            [https://anderick.github.io/issue-redir/r/${steps.get-comment-body.outputs.filename}](https://anderick.github.io/issue-redir/r/${steps.get-comment-body.outputs.filename})
+          reactions: heart
