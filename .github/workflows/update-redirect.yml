@@ -12,10 +12,10 @@ jobs:
         run: |
           cd r
           echo '${{ github.event.issue.body }}' > body.temp
-          title=$(sed '1q;d')
-          description=$(sed '2q;d')
-          image=$(sed '3q;d')
-          site_name=$(sed '4q;d')
+          title=$(sed '1q;d' body.temp)
+          description=$(sed '2q;d' body.temp)
+          image=$(sed '3q;d' body.temp)
+          site_name=$(sed '4q;d' body.temp)
           url=https://something/${{ github.event.issue.number }}
           destination=${{ github.event.issue.title }}
           template="$(cat ../redir.template)"
