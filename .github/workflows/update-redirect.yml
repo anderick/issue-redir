@@ -11,15 +11,16 @@ jobs:
       - name: Generate new file
         run: |
           cd r
+          filename="$(echo -n "${{ github.event.issue.number }}" | md5sum | awk '{print $1}).html'
           echo '${{ github.event.issue.body }}' > body.temp
           title=$(sed '1q;d' body.temp)
           description=$(sed '2q;d' body.temp)
           image=$(sed '3q;d' body.temp)
           site_name=$(sed '4q;d' body.temp)
-          url=https://something/${{ github.event.issue.number }}
+          url=https://anderick.github.io/issue-redir/r/${filename}
           destination=${{ github.event.issue.title }}
           template="$(cat ../redir.template)"
-          eval "echo \"${template}\"" > ${{ github.event.issue.number }}.html
+          eval "echo \"${template}\"" > ${filename}
           cd ../
 
       - name: Commit files
@@ -34,3 +35,11 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           force: true
           branch: ${{ github.ref }}
+
+      - name: Add comment with the link
+        uses: peter-evans/create-or-update-comment@v1
+        with:
+          issue-number: ${{ github.event.issue.number }}
+          body: |
+            [https://anderick.github.io/issue-redir/r/${filename}](https://anderick.github.io/issue-redir/r/${filename})
+          reactions: '+1'
