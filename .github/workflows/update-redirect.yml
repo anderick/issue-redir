@@ -17,10 +17,10 @@ jobs:
           description=$(sed '2q;d' body.temp)
           image=$(sed '3q;d' body.temp)
           site_name=$(sed '4q;d' body.temp)
-          url=https://anderick.github.io/issue-redir/r/${${{ github.event.issue.node_id }}.html}
+          url=https://anderick.github.io/issue-redir/r/${{ github.event.issue.node_id }}.html
           destination=${{ github.event.issue.title }}
           template="$(cat ../redir.template)"
-          eval "echo \"${template}\"" > ${${{ github.event.issue.node_id }}.html}
+          eval "echo \"${template}\"" > ${{ github.event.issue.node_id }}.html
           cd ../
 
       - name: Commit files
