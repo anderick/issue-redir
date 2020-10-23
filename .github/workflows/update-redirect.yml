@@ -42,5 +42,5 @@ jobs:
         with:
           issue-number: ${{ github.event.issue.number }}
           body: |
-            [https://anderick.github.io/issue-redir/r/${filename}](https://anderick.github.io/issue-redir/r/${filename})
+            [https://anderick.github.io/issue-redir/r/${{ INPUT_filename }}](https://anderick.github.io/issue-redir/r/${filename})
           reactions: '+1'
