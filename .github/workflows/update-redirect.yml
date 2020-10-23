@@ -11,8 +11,15 @@ jobs:
       - name: Generate new file
         run: |
           cd r
-          echo '${{ github.event.issue.title }}' > ${{ github.event.issue.number }}.html
-          echo '${{ github.event.issue.body }}' >> ${{ github.event.issue.number }}.html
+          echo '${{ github.event.issue.body }}' > body.temp
+          title=$(sed '1q;d')
+          description=$(sed '2q;d')
+          image=$(sed '3q;d')
+          site_name=$(sed '4q;d')
+          url=https://something/${{ github.event.issue.number }}
+          destination=${{ github.event.issue.title }}
+          template="$(cat ../redir.template)"
+          eval "echo \"${template}\"" > ${{ github.event.issue.number }}.html
           cd ../
 
       - name: Commit files
