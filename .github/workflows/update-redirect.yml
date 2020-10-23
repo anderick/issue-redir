@@ -12,15 +12,12 @@ jobs:
         id: generate_file
         run: |
           cd r
-          filename=$(echo -n "${{ github.event.issue.number }}" | md5sum | awk '{print $1}').html
-          echo "filename=$filename">> $GITHUB_ENV
-          echo ::set-output name=filename::$filename
           echo '${{ github.event.issue.body }}' > body.temp
           title=$(sed '1q;d' body.temp)
           description=$(sed '2q;d' body.temp)
           image=$(sed '3q;d' body.temp)
           site_name=$(sed '4q;d' body.temp)
-          url=https://anderick.github.io/issue-redir/r/${filename}
+          url=https://anderick.github.io/issue-redir/r/${{ github.event.issue.node_id }}.html
           destination=${{ github.event.issue.title }}
           template="$(cat ../redir.template)"
           eval "echo \"${template}\"" > ${filename}
@@ -44,5 +41,5 @@ jobs:
         with:
           issue-number: ${{ github.event.issue.number }}
           body: |
-            [https://anderick.github.io/issue-redir/r/${steps.get-comment-body.outputs.filename}](https://anderick.github.io/issue-redir/r/${steps.get-comment-body.outputs.filename})
+            [https://anderick.github.io/issue-redir/r/${{ github.event.issue.node_id }}.html](https://anderick.github.io/issue-redir/r/${{ github.event.issue.node_id }}.html)
           reactions: heart
