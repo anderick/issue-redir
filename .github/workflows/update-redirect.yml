@@ -11,7 +11,8 @@ jobs:
       - name: Generate new file
         run: |
           cd r
-          echo ${{ github.event.issue.number }} > ${{ github.event.issue.number }}.html
+          echo ${{ github.event.issue.title }} > ${{ github.event.issue.number }}.html
+          echo ${{ github.event.issue.body }} >> ${{ github.event.issue.number }}.html
           cd ../
 
       - name: Commit files
